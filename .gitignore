@@ -1,0 +1,11 @@
+.terraform/
+out.plan
+terraform.tfstate
+terraform.tfvars
+terraform.tfstate.backup
+secret.conf
+helm/
+extra/
+scripts/
+kube_config.*
+tmp/
