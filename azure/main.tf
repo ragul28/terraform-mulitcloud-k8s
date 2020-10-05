@@ -9,9 +9,9 @@ module "azure-vnet" {
 
 module "azure-aks" {
   source              = "./modules/aks"
-  project         = var.project
+  project             = var.project
   resource_group_name = module.azure-vnet.resource_group_name
-  cluster_name        = "${var.project}"
+  cluster_name        = var.project
   location            = var.location
   k8s_version         = var.k8s_version
   agent_vm_sku        = var.agent_vm_sku

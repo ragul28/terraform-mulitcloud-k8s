@@ -3,8 +3,8 @@ variable "location" {
   description = "Azure location where the resource exists."
 }
 
-variable "environment" {
-  description = "application environment"
+variable "project" {
+  description = "project name"
 }
 
 variable "resource_group_name" {
