@@ -4,7 +4,7 @@ Provision k8s cluster in all there major cloud providers using single terraform 
 
 * AWS EKS 
 * Azure AKS
-* GCP GKS 
+* GCP GKE
 
 ## Usage
 
@@ -45,4 +45,19 @@ aws eks update-kubeconfig --name <CLUSTER_NAME>
     ```
     echo "$(terraform output kube_config)" > az-kube-confg.yml
     export KUBECONFIG="$PWD/az-kube-confg.yml"
+    ```
+
+### GKE
+
+* Install gcloud cli & auth with gcp account
+* Add your account to the app default credentials. 
+    ```
+    gcloud auth application-default login
+    ```
+* Update the tfvars file & init terrform.
+    ```
+    cd gcp
+    cp terraform.tfvars.sample terraform.tfvars
+    terraform init
+    terraform apply
     ```
