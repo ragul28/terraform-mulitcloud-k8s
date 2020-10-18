@@ -19,7 +19,7 @@ resource "azurerm_virtual_network" "azure_vnet" {
 # azure subnet
 resource "azurerm_subnet" "subnet" {
   name                 = "main-subnet"
-  resource_group_name  = var.resource_group_name
+  resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = var.vnet_name
 
   # Taking the second /24 subnet from the first IP range of the virtual network
@@ -34,14 +34,14 @@ resource "azurerm_subnet" "subnet" {
 # azure subnet nsg
 resource "azurerm_network_security_group" "nsg" {
   name                = "main-subnet-nsg"
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
   location            = var.location
 }
 
 # azure nsg rule
 resource "azurerm_network_security_rule" "http" {
   name                        = "AllowHttp"
-  resource_group_name         = var.resource_group_name
+  resource_group_name         = azurerm_resource_group.rg.name
   network_security_group_name = azurerm_network_security_group.nsg.name
   priority                    = 101
   description                 = "Allow HTTP"
