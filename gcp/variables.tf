@@ -1,9 +1,14 @@
 variable "project" {
-  default = "tfeks-test"
 }
 
 variable "gcp_region" {
-  default = "us-east-1"
+  description = "If only region defined regional cluster is created."
+  default     = "us-central1"
+}
+
+variable "gcp_zone" {
+  description = "If zone defined, zonal cluster created."
+  default     = ""
 }
 
 variable "vpc_cidr_block" {
@@ -11,7 +16,7 @@ variable "vpc_cidr_block" {
 }
 
 variable "node_count" {
-  default = 3
+  default = 1
 }
 
 variable "instance_type" {

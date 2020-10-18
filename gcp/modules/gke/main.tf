@@ -17,14 +17,32 @@ resource "google_container_cluster" "primary" {
       issue_client_certificate = false
     }
   }
+
+  network_policy {
+    enabled = "true"
+  }
+
+  ip_allocation_policy {
+    cluster_secondary_range_name  = var.gke_subnet_secondary_ip_range.0.range_name
+    services_secondary_range_name = var.gke_subnet_secondary_ip_range.1.range_name
+  }
+
+  private_cluster_config {
+    enable_private_nodes    = "true"
+    enable_private_endpoint = "false"
+    master_ipv4_cidr_block  = "172.16.0.16/28"
+  }
 }
 
 # Separately Managed Node Pool
 resource "google_container_node_pool" "primary_nodes" {
   name       = "${google_container_cluster.primary.name}-node-pool"
-  location   = var.gcp_region
   cluster    = google_container_cluster.primary.name
+  
+  # if zone defined create zonal else regional cluster. 
+  location   = var.gcp_zone != "" ? var.gcp_zone : var.gcp_region
   node_count = var.node_count
+  # node_locations = [""]
 
   node_config {
     oauth_scopes = [
