@@ -45,11 +45,20 @@ resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
   kubernetes_version  = var.k8s_version
   dns_prefix          = var.dns_prefix == "" ? var.cluster_name : var.dns_prefix
 
+  # sku_tier            = Free # Paid for SLA
+
   default_node_pool {
     name            = var.agent_prefix
     vm_size         = var.agent_vm_sku
     node_count      = var.node_count
     os_disk_size_gb = var.node_os_disk_size_gb
+
+    type                = "VirtualMachineScaleSets"
+    availability_zones  = ["1", "2", "3"]
+    # enable_auto_scaling = true
+    # min_count           = 2
+    # max_count           = 4
+
     vnet_subnet_id  = var.main_subnet_id
   }
 
@@ -57,6 +66,12 @@ resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
   service_principal {
     client_id     = azuread_application.aks.application_id
     client_secret = azuread_service_principal_password.aks_sp_pwd.value
+  }
+
+  network_profile {
+    network_plugin    = "azure"
+    load_balancer_sku = "standard"
+    network_policy    = "calico"
   }
 
   tags = {
