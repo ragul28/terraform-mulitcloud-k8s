@@ -1,7 +1,5 @@
-location    = "West US"
-project     = "tfeks-test"
+location    = "West US 2"
+project     = "tfaks-cluster"
 
 subscription_id = 
 tenant_id       = 
-client_id       = 
-client_secret   = 

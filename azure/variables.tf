@@ -4,8 +4,6 @@ variable "project" {}
 
 variable "subscription_id" {}
 variable "tenant_id" {}
-variable "client_id" {}
-variable "client_secret" {}
 
 variable "vnet_address" {
   default = ["10.20.0.0/16"]
@@ -29,6 +27,7 @@ variable "agent_prefix" {
 
 variable "agent_vm_sku" {
   description = "Azure VM SKU for the agent/worker nodes B2s, DS1_v2, B2ms, D2_v2, D2s_v3"
+  default = "Standard_B2s"
 }
 
 variable "node_os_disk_size_gb" {
@@ -38,6 +37,7 @@ variable "node_os_disk_size_gb" {
 
 variable "node_count" {
   description = "Number of worker nodes"
+  default = 3
 }
 
 variable "agent_admin_user" {
