@@ -24,9 +24,10 @@ aws eks update-kubeconfig --name <CLUSTER_NAME>
 
 ### AKS
 
-* Create Service principal for Subscription
+* Authenticating azure provider using the Azure CLI
     ```
-    az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<Subscription-ID>"
+    az login
+    az account set --subscription="SUBSCRIPTION_ID"
     ```
 
 * Clone project & fill the terraform variables in `terraform.tfvars`.
