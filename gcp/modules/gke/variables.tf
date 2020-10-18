@@ -1,9 +1,11 @@
 variable "project" {}
 variable "gcp_region" {}
+variable "gcp_zone" {}
 
 variable "gke_vpc" {}
 variable "gke_subnet" {}
 
+variable "gke_subnet_secondary_ip_range" {}
 
 variable "gke_username" {
   default     = ""
@@ -14,7 +16,6 @@ variable "gke_password" {
 }
 
 variable "node_count" {
-  default     = 3
   description = "number of gke nodes"
 }
 
