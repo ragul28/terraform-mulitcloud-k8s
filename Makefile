@@ -1,13 +1,11 @@
+validate:
+	$(MAKE) -C $(provider) 
+	
 plan:
-	cd $(provider)
-	terraform fmt
-	terraform init
-	terraform plan
+	$(MAKE) -C $(provider)
 
 planout:
-	cd $(provider)
-	terraform plan -out=out.plan
+	$(MAKE) -C $(provider) 
 
 apply:
-	cd $(provider)
-	terraform apply out.plan
+	$(MAKE) -C $(provider) 
