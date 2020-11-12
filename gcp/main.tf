@@ -1,13 +1,15 @@
 module "gcp-vpc" {
   source         = "./modules/vpc"
-  project        = var.project
+  gcp_project_id = var.gcp_project_id
+  project_name   = var.project_name
   gcp_region     = var.gcp_region
   vpc_cidr_block = var.vpc_cidr_block
 }
 
 module "gcp-gke" {
   source                        = "./modules/gke"
-  project                       = var.project
+  gcp_project_id                = var.gcp_project_id
+  project_name                  = var.project_name
   gcp_region                    = var.gcp_region
   gcp_zone                      = var.gcp_zone
   gke_vpc                       = module.gcp-vpc.gke_vpc

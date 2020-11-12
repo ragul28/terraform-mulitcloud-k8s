@@ -1,12 +1,12 @@
 # VPC
 resource "google_compute_network" "vpc" {
-  name                    = "${var.project}-vpc"
+  name                    = "${var.project_name}-vpc"
   auto_create_subnetworks = "false"
 }
 
 # Subnet
 resource "google_compute_subnetwork" "subnet" {
-  name          = "${var.project}-subnet"
+  name          = "${var.project_name}-subnet"
   region        = var.gcp_region
   network       = google_compute_network.vpc.name
   # ip_cidr_range = var.vpc_cidr_block
@@ -15,27 +15,27 @@ resource "google_compute_subnetwork" "subnet" {
   private_ip_google_access = true
 
   secondary_ip_range {
-    range_name    = "${var.project}-pod-range"
+    range_name    = "${var.project_name}-pod-range"
     ip_cidr_range = cidrsubnet(var.vpc_cidr_block, 4, 1)
   }
 
   secondary_ip_range {
-    range_name    = "${var.project}-svc-range"
+    range_name    = "${var.project_name}-svc-range"
     ip_cidr_range = cidrsubnet(var.vpc_cidr_block, 4, 2)
   }
 }
 
 # external ip for NAT gateway 
 resource "google_compute_address" "nat" {
-  name    = "${var.project}-natip"
-  project = var.project
+  name    = "${var.project_name}-natip"
+  project = var.gcp_project_id
   region  = var.gcp_region
 }
 
 # cloud router - cloud NAT
 resource "google_compute_router" "router" {
-  name    = "${var.project}-router"
-  project = var.project
+  name    = "${var.project_name}-router"
+  project = var.gcp_project_id
   region  = var.gcp_region
   network = google_compute_network.vpc.self_link
 
@@ -46,8 +46,8 @@ resource "google_compute_router" "router" {
 
 # cloud NAT
 resource "google_compute_router_nat" "nat" {
-  name    = "${var.project}-nat"
-  project = var.project
+  name    = "${var.project_name}-nat"
+  project = var.gcp_project_id
   router  = google_compute_router.router.name
   region  = var.gcp_region
 
