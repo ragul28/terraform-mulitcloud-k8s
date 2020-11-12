@@ -55,7 +55,7 @@ aws eks update-kubeconfig --name <CLUSTER_NAME>
     ```
     gcloud auth application-default login
     ```
-* Update the tfvars file & init terrform.
+* Update the tfvars file & init terrform. To enable regonal cluster comment zone in `terraform.tfvars`.  
     ```
     cd gcp
     cp terraform.tfvars.sample terraform.tfvars
