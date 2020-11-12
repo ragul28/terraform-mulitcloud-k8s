@@ -54,7 +54,8 @@ resource "google_container_node_pool" "primary_nodes" {
       env = var.project
     }
 
-    # preemptible  = true
+    preemptible  = var.enable_preemptible
+
     machine_type = var.instance_type
     tags         = ["gke-node", "${var.project}-gke"]
     metadata = {
