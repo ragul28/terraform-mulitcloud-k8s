@@ -20,5 +20,9 @@ variable "node_count" {
 }
 
 variable "instance_type" {
-  default = "n1-standard-1"
+  default = "e2-medium"
+}
+
+variable "enable_preemptible" {
+  default = false
 }

@@ -1,2 +1,8 @@
 project_id = "tfgke-test"
+
 region     = "us-central1"
+# comment zone to enable regional cluster 
+zone = "us-central1-a"
+
+instance_type = "e2-medium" 
+enable_preemptible = true
