@@ -37,3 +37,7 @@ variable "gke_password" {
 variable "enable_preemptible" {
   default = false
 }
+
+variable "gke_env_mode" {
+  default = ""
+}
