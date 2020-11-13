@@ -6,5 +6,6 @@ region     = "us-central1"
 zone = "us-central1-a"
 
 instance_type = "e2-medium" 
-enable_preemptible = true
 node_count = 3
+enable_preemptible = true
+gke_env_mode = ""

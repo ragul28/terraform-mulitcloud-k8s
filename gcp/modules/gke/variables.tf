@@ -27,3 +27,7 @@ variable "instance_type" {
 variable "enable_preemptible" {
   default = false
 }
+
+variable "gke_env_mode" {
+  default = ""
+}

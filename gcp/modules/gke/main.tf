@@ -18,10 +18,6 @@ resource "google_container_cluster" "primary" {
     }
   }
 
-  network_policy {
-    enabled = "true"
-  }
-
   ip_allocation_policy {
     cluster_secondary_range_name  = var.gke_subnet_secondary_ip_range.0.range_name
     services_secondary_range_name = var.gke_subnet_secondary_ip_range.1.range_name
@@ -32,6 +28,13 @@ resource "google_container_cluster" "primary" {
     enable_private_endpoint = "false"
     master_ipv4_cidr_block  = "172.16.0.16/28"
   }
+
+  network_policy {
+    enabled = var.gke_env_mode == "production" ? "true" : "false"
+  }
+
+  logging_service = var.gke_env_mode == "production" ? "logging.googleapis.com/kubernetes" : "none"
+  monitoring_service = var.gke_env_mode == "production" ? "monitoring.googleapis.com/kubernetes" : "none"
 }
 
 # Separately Managed Node Pool

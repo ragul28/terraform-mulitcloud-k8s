@@ -19,4 +19,5 @@ module "gcp-gke" {
   node_count                    = var.node_count
   gke_username                  = var.gke_username
   gke_password                  = var.gke_password
+  gke_env_mode                  = var.gke_env_mode
 }
