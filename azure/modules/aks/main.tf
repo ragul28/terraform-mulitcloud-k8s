@@ -70,13 +70,18 @@ resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
 
   network_profile {
     network_plugin    = "azure"
+    # network policy to be used with Azure CNI. supports [ azure, calico ]
+    network_policy    = "calico" 
     load_balancer_sku = "standard"
-    network_policy    = "calico"
+  }
+
+  role_based_access_control {
+    enabled = true
   }
 
   tags = {
     project = var.project
-    terrafrom = "true"
+    created = "terrafrom"
   }
 
   depends_on = [var.resource_group_name, var.main_subnet_id]
