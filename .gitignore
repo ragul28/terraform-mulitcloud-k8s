@@ -7,5 +7,5 @@ secret.conf
 helm/
 extra/
 scripts/
-kube_config.*
+*kube-confg.*
 tmp/
