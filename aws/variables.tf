@@ -20,7 +20,7 @@ variable "node_count" {
 }
 
 variable "instance_types" {
-    default = ["t3.medium"]
+  default = ["t3.medium"]
 }
 
 # variable "k8s_version" {}
