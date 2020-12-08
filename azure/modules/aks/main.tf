@@ -1,42 +1,3 @@
-# azure k8s module
-# Azure-AD Application for Service Principal
-resource "azuread_application" "aks" {
-  name = "${var.project}-aks-sp"
-}
-
-# AKS Service Principal
-resource "azuread_service_principal" "aks_sp" {
-  application_id = azuread_application.aks.application_id
-}
-
-resource "random_string" "password" {
-  length  = 32
-  special = true
-
-  # avoids pwd regeneration by maping pwd to azure-sp-id 
-  keepers = {
-    service_principal = azuread_service_principal.aks_sp.id
-  }
-}
-
-# Create Service Principal password
-resource "azuread_service_principal_password" "aks_sp_pwd" {
-  service_principal_id = azuread_service_principal.aks_sp.id
-  value                = random_string.password.result
-  end_date             = "2099-12-30T23:00:00Z"
-
-  # lifecycle prevents end_date modification in next run
-  lifecycle {
-    ignore_changes = [end_date]
-  }
-}
-
-resource "azurerm_role_assignment" "aks-contributor" {
-  scope                = var.resource_group_id
-  role_definition_name = "Contributor"
-  principal_id         = azuread_service_principal.aks_sp.id
-}
-
 # AKS cluster Resource
 resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
   name                = var.cluster_name
@@ -48,10 +9,10 @@ resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
   # sku_tier            = Free # Paid for SLA
 
   default_node_pool {
-    name            = var.agent_prefix
-    vm_size         = var.agent_vm_sku
+    name            = var.node_prefix
+    vm_size         = var.node_vmsize
+    os_disk_size_gb = var.node_osdisk_gb
     node_count      = var.node_count
-    os_disk_size_gb = var.node_os_disk_size_gb
 
     type                = "VirtualMachineScaleSets"
     availability_zones  = ["1", "2", "3"]
@@ -85,4 +46,29 @@ resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
   }
 
   depends_on = [var.resource_group_name, var.main_subnet_id]
+}
+
+#
+resource "azurerm_kubernetes_cluster_node_pool" "worker" {
+  count = var.enable_spot_worker == true ? 1 : 0
+
+  name                  = "worker"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_managed_cluster.id
+  vm_size               = var.spot_worker_vmsize
+  os_disk_size_gb       = var.spot_worker_osdisk_gb
+  node_count            = var.spot_worker_node_count
+
+  availability_zones  = ["1", "2", "3"]
+  # enable_auto_scaling = true
+  # min_count           = 1
+  # max_count           = 4
+
+  priority = "Spot"
+  spot_max_price  = -1
+  eviction_policy = "Deallocate"
+
+  tags = {
+    project = var.project
+    created = "terrafrom"
+  }
 }
