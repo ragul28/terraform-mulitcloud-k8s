@@ -8,15 +8,19 @@ module "azure-vnet" {
 }
 
 module "azure-aks" {
-  source              = "./modules/aks"
-  project             = var.project
-  resource_group_name = module.azure-vnet.resource_group_name
-  cluster_name        = var.project
-  location            = var.location
-  k8s_version         = var.k8s_version
-  agent_vm_sku        = var.agent_vm_sku
-  node_count          = var.node_count
-  subscription_id     = var.subscription_id
-  main_subnet_id      = module.azure-vnet.main_subnet_id
-  resource_group_id   = module.azure-vnet.resource_group_id
+  source                 = "./modules/aks"
+  project                = var.project
+  location               = var.location
+  environment            = var.environment
+  subscription_id        = var.subscription_id
+  resource_group_name    = module.azure-vnet.resource_group_name
+  resource_group_id      = module.azure-vnet.resource_group_id
+  main_subnet_id         = module.azure-vnet.main_subnet_id
+  cluster_name           = "${var.project}-aks"
+  k8s_version            = var.k8s_version
+  node_vmsize            = var.node_vmsize
+  node_count             = var.node_count
+  enable_spot_worker     = var.enable_spot_worker
+  spot_worker_vmsize     = var.spot_worker_vmsize
+  spot_worker_node_count = var.spot_worker_node_count
 }

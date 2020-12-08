@@ -1,17 +1,18 @@
 # Azure system configuration 
 variable "location" {}
 variable "project" {}
+variable "environment" {}
 
 variable "subscription_id" {}
 variable "tenant_id" {}
 
 variable "vnet_address" {
-  default = ["10.20.0.0/16"]
+  default = ["10.40.0.0/16"]
 }
 
 # AKS cluster configuration
 variable "k8s_version" {
-  description = "Kubernetes version > 1.16.12"
+  description = "Kubernetes version"
 }
 
 variable "dns_prefix" {
@@ -20,24 +21,41 @@ variable "dns_prefix" {
 }
 
 # worker node configuration
-variable "agent_prefix" {
+variable "node_prefix" {
   description = "DNS name prefix for the worker nodes (aka minions)"
   default     = "worker"
 }
 
-variable "agent_vm_sku" {
-  description = "Azure VM SKU for the agent/worker nodes B2s, DS1_v2, B2ms, D2_v2, D2s_v3"
-  default = "Standard_B2s"
+variable "node_vmsize" {
+  description = "Worker nodes sku Standard_B2s, Standard_D2_v4, Standard_D2s_v4"
 }
 
-variable "node_os_disk_size_gb" {
+variable "node_osdisk_gb" {
   description = "Size in GB of the node's OS disks"
   default     = 30
 }
 
 variable "node_count" {
   description = "Number of worker nodes"
-  default = 3
+}
+
+variable "enable_spot_worker" {
+  default = false
+}
+
+variable "spot_worker_vmsize" {
+  description = "Worker nodes sku Standard_B2s, Standard_D2_v4, Standard_D2s_v4"
+  default = "Standard_D2_v4"
+}
+
+variable "spot_worker_osdisk_gb" {
+  description = "Size in GB of the node's OS disks"
+  default     = 30
+}
+
+variable "spot_worker_node_count" {
+  description = "Number of Spot worker nodes"
+  default = 1
 }
 
 variable "agent_admin_user" {
