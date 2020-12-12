@@ -1,0 +1,11 @@
+project     = "tfeks"
+aws_region  = "ap-southeast-1" # "us-east-1", "ap-southeast-1"
+
+# VPC
+subnet_count = 3
+
+# EKS
+node_count     = 1
+instance_types = ["t3a.medium"]
+spot_node_count     = 2
+spot_instance_types = ["t3a.medium", "t3.medium"]
