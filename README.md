@@ -10,17 +10,24 @@ Provision k8s cluster in all there major cloud providers using single terraform 
 
 ### EKS
 
+* Make sure AWS credentials are configured using aws-cli.
+* Fill with necessary variables in `terraform.tfvars` file.
 * Run the terraform with necessary variables.
-```
-cd aws/
-terraform init
-terraform apply
-```
+    ```
+    cd aws/
+    terraform init
+    terraform apply
+    ```
 
 * To append kubeconfig file default path
-```
-aws eks update-kubeconfig --name <CLUSTER_NAME>
-```
+    ```
+    aws eks update-kubeconfig --name <CLUSTER_NAME>
+    ```
+
+* To estimate cost using infracost.
+    ```sh
+    make infracost
+    ```
 
 ### AKS
 
