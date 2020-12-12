@@ -65,15 +65,15 @@ resource "aws_eks_node_group" "worker-node-spot" {
   node_group_name = "worker-nodes-spot"
   capacity_type   = "SPOT"
   # release_version = "1.18"
-  instance_types  = var.instance_types 
+  instance_types  = var.spot_instance_types
   disk_size       = var.disk_size
   
   node_role_arn   = aws_iam_role.node.arn
   subnet_ids      = var.eks_subnet_ids
 
   scaling_config {
-    desired_size = var.node_count
-    max_size     = (var.node_count * 2) - 1 
+    desired_size = var.spot_node_count
+    max_size     = (var.spot_node_count * 2) - 1 
     min_size     = 1
   }
 
