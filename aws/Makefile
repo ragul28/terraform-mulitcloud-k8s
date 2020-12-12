@@ -14,3 +14,12 @@ planout:
 
 apply:
 	terraform apply out.plan
+
+auto_destory:
+	terraform destroy -auto-approve
+
+destory_t:
+	terraform destroy -target $(target)
+
+infracost: planout
+	infracost --tfdir . --tfplan out.plan
