@@ -1,6 +1,4 @@
-variable "project" {
-  default = "tfeks-test"
-}
+variable "project" {}
 
 variable "aws_region" {
   default = "us-east-1"
@@ -31,4 +29,6 @@ variable "spot_instance_types" {
   default = ["t3.medium", "t3a.medium"]
 }
 
-# variable "k8s_version" {}
+variable "k8s_version" {
+  default = "1.20.4"
+}

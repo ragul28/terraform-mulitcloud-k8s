@@ -1,6 +1,7 @@
 variable "project" {}
 variable "eks_vpc_id" {}
 variable "eks_subnet_ids" {}
+variable "k8s_version" {}
 
 variable "node_count" {}
 variable "instance_types" {}

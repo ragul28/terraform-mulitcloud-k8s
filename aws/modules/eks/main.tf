@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "eks-cluster-AmazonEKSVPCResourceContr
 }
 
 resource "aws_security_group" "eks_cluster" {
-  name        = "terraform-eks-eks_cluster"
+  name        = "${var.project}-eks-sg"
   description = "Cluster communication with worker nodes"
   vpc_id      = var.eks_vpc_id
 
@@ -57,6 +57,7 @@ resource "aws_security_group_rule" "eks-cluster-ingress-workstation-https" {
 resource "aws_eks_cluster" "eks" {
   name     = "${var.project}-eks"
   role_arn = aws_iam_role.eks_cluster.arn
+  version  = var.k8s_version
 
   vpc_config {
     security_group_ids = [aws_security_group.eks_cluster.id]
