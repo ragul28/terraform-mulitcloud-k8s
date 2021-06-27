@@ -2,7 +2,7 @@
 resource "aws_eks_node_group" "worker-node" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "worker-nodes"
-  # release_version = "1.18"
+  release_version = var.k8s_version
   instance_types  = var.instance_types 
   disk_size       = var.disk_size
   
@@ -32,7 +32,7 @@ resource "aws_eks_node_group" "worker-node-spot" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "worker-nodes-spot"
   capacity_type   = "SPOT"
-  # release_version = "1.18"
+  release_version = var.k8s_version
   instance_types  = var.spot_instance_types
   disk_size       = var.disk_size
   
