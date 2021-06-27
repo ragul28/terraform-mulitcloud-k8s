@@ -45,7 +45,7 @@ variable "enable_spot_worker" {
 
 variable "spot_worker_vmsize" {
   description = "Worker nodes sku Standard_B2s, Standard_D2_v4, Standard_D2s_v4"
-  default = "Standard_D2_v4"
+  default     = "Standard_D2_v4"
 }
 
 variable "spot_worker_osdisk_gb" {
@@ -55,7 +55,7 @@ variable "spot_worker_osdisk_gb" {
 
 variable "spot_worker_node_count" {
   description = "Number of Spot worker nodes"
-  default = 1
+  default     = 1
 }
 
 variable "agent_admin_user" {
