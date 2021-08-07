@@ -1,31 +1,20 @@
 # AKS cluster configuration
 variable "location" {}
 variable "resource_group_name" {}
-variable "resource_group_id" {}
-
 variable "project" {}
-variable "environment" {}
 
-variable "subscription_id" {}
-
-variable "cluster_name" {
-  description = "cluster name"
-}
-
-variable "k8s_version" {
-  description = "Kubernetes version"
-}
+variable "cluster_name" {}
+variable "k8s_version" {}
+variable "main_subnet_id" {}
 
 variable "dns_prefix" {
   description = "DNS prefix (Optional)"
   default     = ""
 }
 
-variable "main_subnet_id" {}
-
 # worker node configuration# worker node configuration
 variable "node_prefix" {
-  description = "DNS name prefix for the worker nodes (aka minions)"
+  description = "DNS prefix for the worker nodes"
   default     = "worker"
 }
 
@@ -41,6 +30,10 @@ variable "node_osdisk_gb" {
 variable "node_count" {
   description = "Number of worker nodes"
   default = 1
+}
+
+variable "node_username" {
+  default = "aksadmin"
 }
 
 variable "enable_spot_worker" {

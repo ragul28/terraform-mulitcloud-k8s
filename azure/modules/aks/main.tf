@@ -1,5 +1,5 @@
 # AKS cluster Resource
-resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
+resource "azurerm_kubernetes_cluster" "aks_cluster" {
   name                = var.cluster_name
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -23,16 +23,22 @@ resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
     vnet_subnet_id  = var.main_subnet_id
   }
 
-  # service principal for aks cluster to create & access resources  
-  service_principal {
-    client_id     = azuread_application.aks.application_id
-    client_secret = azuread_service_principal_password.aks_sp_pwd.value
+  linux_profile {
+    admin_username = var.node_username
+    ssh_key {
+      key_data = tls_private_key.ssh_key_pair.public_key_openssh
+    }
   }
 
+  # service principal for aks cluster to create & access resources 
+  identity {
+    type = "SystemAssigned"
+  }
+  
   network_profile {
     network_plugin    = "azure"
     # network policy to be used with Azure CNI. supports [ azure, calico ]
-    network_policy    = "calico" 
+    network_policy    = "azure" 
     load_balancer_sku = "standard"
   }
 
@@ -52,8 +58,8 @@ resource "azurerm_kubernetes_cluster" "aks_managed_cluster" {
 resource "azurerm_kubernetes_cluster_node_pool" "worker" {
   count = var.enable_spot_worker == true ? 1 : 0
 
-  name                  = "worker"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_managed_cluster.id
+  name                  = "spotworker"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
   vm_size               = var.spot_worker_vmsize
   os_disk_size_gb       = var.spot_worker_osdisk_gb
   node_count            = var.spot_worker_node_count
