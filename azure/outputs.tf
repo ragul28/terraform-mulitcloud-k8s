@@ -3,7 +3,8 @@ output "cluster_name" {
 }
 
 output "kube_config" {
-  value = module.azure-aks.kube_config
+  value     = module.azure-aks.kube_config
+  sensitive = true
 }
 
 output "resource_group_name" {

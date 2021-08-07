@@ -1,7 +1,6 @@
 # Azure system configuration 
 variable "location" {}
 variable "project" {}
-variable "environment" {}
 
 variable "subscription_id" {}
 variable "tenant_id" {}

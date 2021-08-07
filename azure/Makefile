@@ -14,3 +14,6 @@ planout:
 
 apply:
 	terraform apply out.plan
+
+infracost: planout
+	infracost breakdown --path=out.plan
