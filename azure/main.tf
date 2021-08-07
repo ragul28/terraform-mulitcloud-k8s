@@ -11,10 +11,7 @@ module "azure-aks" {
   source                 = "./modules/aks"
   project                = var.project
   location               = var.location
-  environment            = var.environment
-  subscription_id        = var.subscription_id
   resource_group_name    = module.azure-vnet.resource_group_name
-  resource_group_id      = module.azure-vnet.resource_group_id
   main_subnet_id         = module.azure-vnet.main_subnet_id
   cluster_name           = "${var.project}-aks"
   k8s_version            = var.k8s_version
