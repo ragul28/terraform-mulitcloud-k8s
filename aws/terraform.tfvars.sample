@@ -1,5 +1,6 @@
-project    = "tfeks"
-aws_region = "us-east-1" # "us-east-1", "ap-southeast-1"
+project     = "tfeks"
+aws_region  = "us-east-1" # "us-east-1", "ap-southeast-1"
+aws_profile = "default" 
 
 # VPC
 subnet_count = 3

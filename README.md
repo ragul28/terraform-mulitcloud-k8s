@@ -47,12 +47,12 @@ Provision k8s cluster in all there major cloud providers using single terraform 
     
 * Get kubeconfig using az or export
     ```
-    az aks get-credentials --resource-group saiv-staging-rg --name saiv-staging
+    az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER_NAME
     ```
     or
     ```
-    echo "$(terraform output kube_config)" > az-kube-confg.yml
-    export KUBECONFIG="$PWD/az-kube-confg.yml"
+    echo "$(terraform output kube_config)" > aks-kube-confg.yml
+    export KUBECONFIG="$PWD/aks-kube-confg.yml"
     ```
 
 ### GKE
