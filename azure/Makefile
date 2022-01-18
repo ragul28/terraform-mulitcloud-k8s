@@ -1,6 +1,6 @@
 validate:
 	terraform fmt
-	terraform init
+	terraform init --upgrade
 	terraform validate 
 	
 plan:
