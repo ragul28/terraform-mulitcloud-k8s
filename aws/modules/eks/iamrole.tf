@@ -1,3 +1,34 @@
+#Cluster Policy
+resource "aws_iam_role" "eks_cluster" {
+  name = "${var.project}-eks-role"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "eks-cluster-AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks_cluster.name
+}
+
+resource "aws_iam_role_policy_attachment" "eks-cluster-AmazonEKSVPCResourceController" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.eks_cluster.name
+}
+
+#Node Policy
 resource "aws_iam_role" "node" {
   name = "eks-node-role"
 
@@ -37,6 +68,15 @@ resource "aws_iam_role_policy_attachment" "node-CloudWatchAgentServerPolicy" {
   role       = aws_iam_role.node.name
 }
 
+resource "aws_iam_policy" "AWSLoadBalancerControllerIAMPolicyFull" {
+  policy = file("./modules/eks/alb-iam-policy.json")
+}
+
+resource "aws_iam_role_policy_attachment" "node-AWSLoadBalancerControllerIAMPolicy" {
+  policy_arn = aws_iam_policy.AWSLoadBalancerControllerIAMPolicyFull.arn
+  role       = aws_iam_role.node.name
+}
+
 resource "aws_iam_role_policy" "s3_access_policy" {
   name = "S3BucketAccessPolicy"
   role = aws_iam_role.node.name
@@ -58,5 +98,4 @@ resource "aws_iam_role_policy" "s3_access_policy" {
     ]
 }
 EOF
-
 }

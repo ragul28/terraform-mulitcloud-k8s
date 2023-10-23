@@ -1,3 +1,7 @@
+output "eks_cluster_name" {
+  value = aws_eks_cluster.master.name
+}
+
 locals {
   config_map_aws_auth = <<CONFIGMAPAWSAUTH
 apiVersion: v1
@@ -18,8 +22,8 @@ CONFIGMAPAWSAUTH
 apiVersion: v1
 clusters:
 - cluster:
-    server: ${aws_eks_cluster.eks.endpoint}
-    certificate-authority-data: ${aws_eks_cluster.eks.certificate_authority[0].data}
+    server: ${aws_eks_cluster.master.endpoint}
+    certificate-authority-data: ${aws_eks_cluster.master.certificate_authority[0].data}
   name: kubernetes
 contexts:
 - context:
@@ -38,7 +42,7 @@ users:
       args:
         - "token"
         - "-i"
-        - "${aws_eks_cluster.eks.name}"
+        - "${aws_eks_cluster.master.name}"
 KUBECONFIG
 }
 
