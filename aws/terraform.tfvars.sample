@@ -1,12 +1,18 @@
 project     = "tfeks"
-aws_region  = "us-east-1" # "us-east-1", "ap-southeast-1"
-aws_profile = "default" 
+aws_region  = "us-east-1"
+aws_profile = "default"
 
 # VPC
-subnet_count = 3
+az_set                    = ["us-east-1a", "us-east-1b", "us-east-1c"]
+main_vpc_cidr_block       = "10.20.0.0/16"
+secondary_vpc_cidr_blocks = ["10.50.0.0/24"]
+private_subnets           = ["10.20.0.0/24", "10.20.1.0/24", "10.20.2.0/24"]
+public_subnets            = ["10.20.3.0/24", "10.20.4.0/24", "10.20.5.0/24"]
+enable_natgw              = true
 
 # EKS
-k8s_version         = "1.20.4"
+eks_version         = "1.28"
+# enable_public_node  = false
 node_count          = 1
 instance_types      = ["t3a.medium"]
 spot_node_count     = 2
