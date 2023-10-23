@@ -8,15 +8,17 @@ variable "aws_profile" {
   default = "default"
 }
 
-variable "vpc_cidr_block" {
-  default = "10.20.0.0/16"
-}
+# VPC
+variable "main_vpc_cidr_block" {}
+variable "secondary_vpc_cidr_blocks" {}
 
-variable "subnet_count" {
-  default     = 3
-  description = "(optional) subnet count for private & public"
-}
+variable "az_set" {}
+variable "public_subnets" {}
+variable "private_subnets" {}
+variable "enable_natgw" {
 
+}
+# EKS
 variable "node_count" {
   default = 2
 }
@@ -33,6 +35,6 @@ variable "spot_instance_types" {
   default = ["t3.medium", "t3a.medium"]
 }
 
-variable "k8s_version" {
-  default = "1.20.4"
+variable "eks_version" {
+  default = "1.28"
 }
